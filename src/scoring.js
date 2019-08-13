@@ -36,31 +36,46 @@ export const isFullHouse = (dice)=> {
   return ( counts.includes(2) && counts.includes(3) );
 };
 
+export const isThreeOfAKind = (dice)=> {
+  const counts = countDice( dice );
 
-
-const depIsFourOfAKind = (dice)=> {
-  let diffs = 0;
-
-  for(let i = 0; i < (dice.length); i++){
-    if( dice[i] !== dice[0] ){
-      diffs++;
-    }
+  for(let i = 0; i < (counts.length); i++){
+    if( counts[i] >= 3 ) return true;
   }
-
-  if( diffs <= 1 ) return true;
-
-  diffs = 0;
-
-  for(let i = 0; i < (dice.length); i++){
-    if( dice[i] !== dice[1] ){
-      diffs++;
-    }
-  }
-
-  if( diffs <= 1 ) return true;
 
   return false;
 };
+
+
+let person = { name: 'nik', age: undefined };
+
+const { name, age, anything } = person;
+
+const displayPerson = ({ name, age })=> (name+' is '+age+' years old');
+displayPerson(person);
+
+export const isSmallStraight = (dice)=> {
+  const uniqueSortedDice = Array.from( new Set(dice.sort()) );
+  let combo = 0;
+
+  for(let i = 0; i < (uniqueSortedDice.length - 1); i++){
+    if( uniqueSortedDice[i] === uniqueSortedDice[i+1] -1 ) combo++;
+    else combo = 0;
+
+    if( combo === 3 ) return true;
+  }
+  return false;
+};
+
+export const isLargeStraight = (dice)=> {
+  const sortedDice = dice.sort();
+
+  for(let i = 0; i < (sortedDice.length - 1); i++){
+    if( sortedDice[i] !== sortedDice[i+1] -1 ) return false;
+  }
+  return true;
+};
+
 
 export const rollDice = ()=> {
   const dice = [];

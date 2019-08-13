@@ -5,13 +5,16 @@ import {
   isYahtzee,
   isFourOfAKind,
   isFullHouse,
+  isThreeOfAKind,
+  isSmallStraight,
+  isLargeStraight,
   rollDice,
 } from './scoring';
 
 class App extends React.Component {
 
   state = {
-    dice: [1, 1, 1, 2, 2], //rollDice(),
+    dice: rollDice(),
   }
 
   roll = ()=> {
@@ -31,6 +34,9 @@ class App extends React.Component {
         <span>{ isYahtzee(this.state.dice) ? 'Yahtzee' : null }</span>
         <span>{ isFourOfAKind(this.state.dice) ? '4 of a kind' : null }</span>
         <span>{ isFullHouse(this.state.dice) ? 'Full House' : null }</span>
+        <span>{ isThreeOfAKind(this.state.dice) ? '3 of a kind' : null }</span>
+        <span>{ isSmallStraight(this.state.dice) ? 'Small Straight' : null }</span>
+        <span>{ isLargeStraight(this.state.dice) ? 'Large Straight' : null }</span>
         <button onClick={this.roll}>Roll Dice</button>
       </div>
     );
