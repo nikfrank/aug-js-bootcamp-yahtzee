@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 
+import Die from './Die';
+
 import {
   isYahtzee,
   isFourOfAKind,
@@ -34,6 +36,7 @@ class App extends React.Component {
 
     this.setState({
       dice: nextDice,
+      rollsRemaining: this.state.rollsRemaining - 1,
     });
   }
 
@@ -49,25 +52,30 @@ class App extends React.Component {
       <div className="App">
         <div className='game-container'>
           <div className='dice-container'>
+
             <div className={this.state.held[0] ? 'held' : ''}
                  onClick={()=> this.toggleDie(0)}>
-              {this.state.dice[0]}
+              <Die number={this.state.dice[0]} />
             </div>
+
             <div className={this.state.held[1] ? 'held' : ''}
                  onClick={()=> this.toggleDie(1)}>
-              {this.state.dice[1]}
+              <Die number={this.state.dice[1]} />
             </div>
+
             <div className={this.state.held[2] ? 'held' : ''}
                  onClick={()=> this.toggleDie(2)}>
-              {this.state.dice[2]}
+              <Die number={this.state.dice[2]} />
             </div>
+
             <div className={this.state.held[3] ? 'held' : ''}
                  onClick={()=> this.toggleDie(3)}>
-              {this.state.dice[3]}
+              <Die number={this.state.dice[3]} />
             </div>
+
             <div className={this.state.held[4] ? 'held' : ''}
                  onClick={()=> this.toggleDie(4)}>
-              {this.state.dice[4]}
+              <Die number={this.state.dice[4]} />
             </div>
           </div>
 
