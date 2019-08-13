@@ -15,29 +15,73 @@ class App extends React.Component {
 
   state = {
     dice: rollDice(),
+    held: [ false, false, false, false, false ],
+    rollsRemaining: 2,
   }
 
   roll = ()=> {
+    if( this.state.rollsRemaining === 0 ) return;
+
+    const rerolls = this.state.held.filter(die => !die).length;
+
+    const newDice = rollDice( rerolls );
+
+    let nextDice = [];
+    for(let i = 0; i < 5; i++){
+      if( this.state.held[i] ) nextDice.push( this.state.dice[i] );
+      else nextDice.push( newDice.pop() );
+    }
+
     this.setState({
-      dice: rollDice(),
+      dice: nextDice,
     });
+  }
+
+  toggleDie = (index)=> {
+    const held = this.state.held;
+    held[index] = !held[index];
+
+    this.setState({ held });
   }
 
   render() {
     return (
       <div className="App">
-        <div>{this.state.dice[0]}</div>
-        <div>{this.state.dice[1]}</div>
-        <div>{this.state.dice[2]}</div>
-        <div>{this.state.dice[3]}</div>
-        <div>{this.state.dice[4]}</div>
-        <span>{ isYahtzee(this.state.dice) ? 'Yahtzee' : null }</span>
-        <span>{ isFourOfAKind(this.state.dice) ? '4 of a kind' : null }</span>
-        <span>{ isFullHouse(this.state.dice) ? 'Full House' : null }</span>
-        <span>{ isThreeOfAKind(this.state.dice) ? '3 of a kind' : null }</span>
-        <span>{ isSmallStraight(this.state.dice) ? 'Small Straight' : null }</span>
-        <span>{ isLargeStraight(this.state.dice) ? 'Large Straight' : null }</span>
-        <button onClick={this.roll}>Roll Dice</button>
+        <div className='game-container'>
+          <div className='dice-container'>
+            <div className={this.state.held[0] ? 'held' : ''}
+                 onClick={()=> this.toggleDie(0)}>
+              {this.state.dice[0]}
+            </div>
+            <div className={this.state.held[1] ? 'held' : ''}
+                 onClick={()=> this.toggleDie(1)}>
+              {this.state.dice[1]}
+            </div>
+            <div className={this.state.held[2] ? 'held' : ''}
+                 onClick={()=> this.toggleDie(2)}>
+              {this.state.dice[2]}
+            </div>
+            <div className={this.state.held[3] ? 'held' : ''}
+                 onClick={()=> this.toggleDie(3)}>
+              {this.state.dice[3]}
+            </div>
+            <div className={this.state.held[4] ? 'held' : ''}
+                 onClick={()=> this.toggleDie(4)}>
+              {this.state.dice[4]}
+            </div>
+          </div>
+
+          <button onClick={this.roll}>Roll Dice</button>
+
+          <div className='scorecard'>
+            <span>{ isYahtzee(this.state.dice) ? 'Yahtzee' : null }</span>
+            <span>{ isFourOfAKind(this.state.dice) ? '4 of a kind' : null }</span>
+            <span>{ isFullHouse(this.state.dice) ? 'Full House' : null }</span>
+            <span>{ isThreeOfAKind(this.state.dice) ? '3 of a kind' : null }</span>
+            <span>{ isSmallStraight(this.state.dice) ? 'Small Straight' : null }</span>
+            <span>{ isLargeStraight(this.state.dice) ? 'Large Straight' : null }</span>
+          </div>
+        </div>
       </div>
     );
   }
